@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー — WakeUp+</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #fafafa;
+    --gray-100: #f0f0f0;
+    --gray-300: #c8c8c8;
+    --gray-500: #888;
+    --gray-700: #444;
+    --line: rgba(0,0,0,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.8;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 48px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .header-brand {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: var(--black);
+  }
+  .header-icon {
+    width: 32px; height: 32px; border-radius: 7px;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .header-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .header-name {
+    font-family: 'DM Mono', monospace; font-weight: 400;
+    font-size: 15px; letter-spacing: 0.05em;
+  }
+  .header-label {
+    font-size: 12px; color: var(--gray-500);
+    letter-spacing: 0.12em; font-weight: 300;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 96px 48px 64px; max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: end; gap: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    font-weight: 300; letter-spacing: 0.2em;
+    color: var(--gray-500); text-transform: uppercase; margin-bottom: 16px;
+  }
+  .hero-title {
+    font-size: clamp(36px, 5vw, 56px); font-weight: 300;
+    letter-spacing: -0.02em; line-height: 1.1; color: var(--black);
+  }
+  .hero-title em { font-style: normal; font-weight: 500; }
+  .hero-desc {
+    margin-top: 20px; font-size: 14px; color: var(--gray-500);
+    line-height: 1.7; max-width: 480px;
+  }
+  .hero-meta { text-align: right; }
+  .hero-meta-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--gray-500);
+    display: block; margin-bottom: 4px;
+  }
+  .hero-meta-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; color: var(--gray-700);
+  }
+
+  /* ── TOC ── */
+  .toc-wrap { max-width: 960px; margin: 0 auto; padding: 48px 48px 0; }
+  .toc {
+    background: var(--gray-100); border-radius: 2px; padding: 32px 40px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px 32px;
+  }
+  .toc-header {
+    grid-column: 1 / -1; font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; color: var(--gray-500);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .toc a {
+    display: flex; align-items: baseline; gap: 8px;
+    text-decoration: none; color: var(--gray-700);
+    font-size: 13px; font-weight: 400; padding: 4px 0; transition: color 0.15s;
+  }
+  .toc a:hover { color: var(--black); }
+  .toc-num {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--gray-300); flex-shrink: 0;
+  }
+
+  /* ── MAIN ── */
+  main { max-width: 960px; margin: 0 auto; padding: 64px 48px 120px; }
+
+  /* ── ARTICLE SECTION ── */
+  .article-section {
+    display: grid; grid-template-columns: 160px 1fr;
+    gap: 0 64px; padding: 56px 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .article-section.visible { opacity: 1; transform: none; }
+  .section-aside { padding-top: 4px; }
+  .section-num {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--gray-300); letter-spacing: 0.1em;
+    display: block; margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 14px; font-weight: 500; color: var(--black);
+    letter-spacing: 0.02em; line-height: 1.5;
+    position: sticky; top: 80px;
+  }
+  .section-body p {
+    margin-bottom: 1.4em; color: var(--gray-700); font-size: 14.5px;
+  }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  .section-body ul {
+    list-style: none; display: flex; flex-direction: column;
+    gap: 10px; margin-top: 8px;
+  }
+  .section-body ul li {
+    display: grid; grid-template-columns: 16px 1fr;
+    gap: 0 10px; color: var(--gray-700);
+    font-size: 14.5px; align-items: baseline;
+  }
+  .section-body ul li::before {
+    content: '—'; font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--gray-300);
+  }
+
+  .section-body ol {
+    list-style: none; counter-reset: item;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .section-body ol li {
+    counter-increment: item;
+    display: grid; grid-template-columns: 24px 1fr;
+    gap: 0 12px; color: var(--gray-700);
+    font-size: 14.5px; align-items: baseline;
+  }
+  .section-body ol li::before {
+    content: counter(item); font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--gray-300); padding-top: 4px;
+  }
+
+  /* ── SUB GROUP（1-1, 1-2...） ── */
+  .sub-group { margin-top: 28px; }
+  .sub-group:first-child { margin-top: 0; }
+  .sub-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--gray-300);
+    text-transform: uppercase; margin-bottom: 10px; display: block;
+  }
+
+  /* ── CONTACT CARD ── */
+  .contact-card {
+    margin-top: 20px; border: 1px solid var(--line);
+    border-radius: 2px; padding: 24px 28px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .contact-row { display: flex; align-items: center; gap: 16px; }
+  .contact-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--gray-300);
+    text-transform: uppercase; width: 64px; flex-shrink: 0;
+  }
+  .contact-value { font-size: 14px; color: var(--gray-700); }
+  .contact-value a {
+    color: var(--black); text-decoration: underline; text-underline-offset: 3px;
+  }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    margin-top: 16px; background: var(--gray-100);
+    border-radius: 2px; padding: 20px 24px;
+    font-size: 13.5px; color: var(--gray-500); line-height: 1.7;
+  }
+
+  /* ── LINK LIST ── */
+  .link-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .link-list li { display: grid; grid-template-columns: 16px 1fr; gap: 0 10px; align-items: baseline; }
+  .link-list li::before { content: '→'; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-300); }
+  .link-list a { font-size: 14.5px; color: var(--black); text-decoration: underline; text-underline-offset: 3px; font-weight: 400; transition: opacity 0.15s; }
+  .link-list a:hover { opacity: 0.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--line); padding: 40px 48px;
+    max-width: 960px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 10px; }
+  .footer-icon { width: 24px; height: 24px; border-radius: 5px; overflow: hidden; }
+  .footer-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .footer-name { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--gray-500); letter-spacing: 0.05em; }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gray-300); }
+
+  /* ── SCROLL PROGRESS ── */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 2px;
+    background: var(--black); z-index: 999; width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    header { padding: 0 24px; }
+    .hero { padding: 64px 24px 48px; grid-template-columns: 1fr; }
+    .hero-meta { text-align: left; }
+    .toc-wrap { padding: 32px 24px 0; }
+    .toc { padding: 24px; gap: 4px 24px; }
+    main { padding: 48px 24px 80px; }
+    .article-section { grid-template-columns: 1fr; gap: 16px 0; }
+    .section-title { position: static; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 16px; align-items: flex-start; }
+    .contact-row { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+  <a class="header-brand" href="#">
+    <div class="header-icon">
+      <img src="icon.png" alt="WakeUp+ icon">
+    </div>
+    <span class="header-name">WakeUp+</span>
+  </a>
+  <span class="header-label">プライバシーポリシー</span>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="hero-eyebrow">Privacy Policy</p>
+    <h1 class="hero-title">プライバシー<em>ポリシー</em></h1>
+    <p class="hero-desc">WakeUp+におけるユーザー情報の取扱いについて、以下のとおり定めます。</p>
+  </div>
+  <div class="hero-meta">
+    <span class="hero-meta-label">最終更新</span>
+    <span class="hero-meta-value">2026.04.22</span>
+  </div>
+</section>
+
+<div class="toc-wrap">
+  <nav class="toc">
+    <p class="toc-header">目次 / Contents</p>
+    <a href="#s1"><span class="toc-num">01</span>取得する情報</a>
+    <a href="#s2"><span class="toc-num">02</span>取得方法</a>
+    <a href="#s3"><span class="toc-num">03</span>利用目的</a>
+    <a href="#s4"><span class="toc-num">04</span>位置情報および写真の利用</a>
+    <a href="#s5"><span class="toc-num">05</span>保存期間</a>
+    <a href="#s6"><span class="toc-num">06</span>アカウント削除後の取扱い</a>
+    <a href="#s7"><span class="toc-num">07</span>第三者提供</a>
+    <a href="#s8"><span class="toc-num">08</span>外部サービスの利用</a>
+    <a href="#s9"><span class="toc-num">09</span>安全管理措置</a>
+    <a href="#s10"><span class="toc-num">10</span>未成年者の利用</a>
+    <a href="#s11"><span class="toc-num">11</span>ユーザーの権利</a>
+    <a href="#s12"><span class="toc-num">12</span>分析・ログ等の利用</a>
+    <a href="#s13"><span class="toc-num">13</span>ポリシーの変更</a>
+    <a href="#s14"><span class="toc-num">14</span>お問い合わせ</a>
+  </nav>
+</div>
+
+<main>
+
+  <div class="article-section" id="s1">
+    <aside class="section-aside">
+      <span class="section-num">第1条</span>
+      <h2 class="section-title">取得する情報</h2>
+    </aside>
+    <div class="section-body">
+      <p>運営者は、本サービスの提供にあたり、以下の情報を取得することがあります。</p>
+
+      <div class="sub-group">
+        <span class="sub-label">1-1 &nbsp;アカウント・認証情報</span>
+        <ul>
+          <li>Appleサインイン等の認証により提供される識別情報</li>
+          <li>ユーザーID</li>
+          <li>ニックネーム等、ユーザーが入力した情報</li>
+        </ul>
+      </div>
+
+      <div class="sub-group">
+        <span class="sub-label">1-2 &nbsp;ミッション・利用情報</span>
+        <ul>
+          <li>ミッション内容（日時、目的地、カテゴリ、設定内容）</li>
+          <li>チェックイン結果</li>
+          <li>異議申し立て内容</li>
+          <li>チケット残高、サブスクリプション状態、購入履歴</li>
+          <li>通知設定、習慣設定、アプリ内設定情報</li>
+        </ul>
+      </div>
+
+      <div class="sub-group">
+        <span class="sub-label">1-3 &nbsp;位置情報</span>
+        <ul>
+          <li>チェックイン判定のために取得される位置情報</li>
+          <li>目的地との距離判定その他関連機能に必要な位置情報</li>
+        </ul>
+      </div>
+
+      <div class="sub-group">
+        <span class="sub-label">1-4 &nbsp;写真・画像情報</span>
+        <ul>
+          <li>チェックイン時にアプリ内で撮影・提出された写真</li>
+          <li>異議申し立て審査または不正防止対応に必要な画像情報</li>
+        </ul>
+      </div>
+
+      <div class="sub-group">
+        <span class="sub-label">1-5 &nbsp;端末・技術情報</span>
+        <ul>
+          <li>端末情報・OS情報・アプリバージョン・言語設定</li>
+          <li>クラッシュログ、診断情報</li>
+          <li>プッシュ通知トークン</li>
+          <li>利用ログ、通信ログ等の技術情報</li>
+        </ul>
+      </div>
+
+      <div class="sub-group">
+        <span class="sub-label">1-6 &nbsp;購入・決済関連情報</span>
+        <ul>
+          <li>サブスクリプションおよびアプリ内課金の購入状態</li>
+          <li>トランザクション識別子</li>
+          <li>外部決済機能を利用する場合の決済状態に関する情報</li>
+        </ul>
+        <div class="info-box">クレジットカード番号等の支払情報そのものを、運営者が直接保存しない場合があります。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-section" id="s2">
+    <aside class="section-aside">
+      <span class="section-num">第2条</span>
+      <h2 class="section-title">取得方法</h2>
+    </aside>
+    <div class="section-body">
+      <p>運営者は、以下の方法により情報を取得します。</p>
+      <ul>
+        <li>ユーザーが本サービス上で入力または設定することによる取得</li>
+        <li>ユーザーが写真撮影、チェックイン、購入等を行うことによる取得</li>
+        <li>端末、OS、SDK、認証基盤、決済基盤、クラウドサービス等からの自動取得</li>
+        <li>アプリ利用に関連して生成されるログ、分析情報等の取得</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="article-section" id="s3">
+    <aside class="section-aside">
+      <span class="section-num">第3条</span>
+      <h2 class="section-title">利用目的</h2>
+    </aside>
+    <div class="section-body">
+      <p>運営者は、取得した情報を以下の目的で利用します。</p>
+      <ol>
+        <li>本サービスの提供、維持、改善のため</li>
+        <li>ミッション作成、チェックイン判定、異議申し立て審査のため</li>
+        <li>チケット付与、返還、失効、購入反映、サブスクリプション管理のため</li>
+        <li>本人確認、認証、不正利用防止、セキュリティ維持のため</li>
+        <li>通知送信、サポート対応、お問い合わせ対応のため</li>
+        <li>利用状況分析、品質向上、障害対応のため</li>
+        <li>法令遵守、紛争対応、監査対応のため</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="article-section" id="s4">
+    <aside class="section-aside">
+      <span class="section-num">第4条</span>
+      <h2 class="section-title">位置情報および写真の利用</h2>
+    </aside>
+    <div class="section-body">
+      <ol>
+        <li>位置情報は、主としてミッション達成判定、不正利用防止、異議申し立て審査のために利用します。</li>
+        <li>写真は、主としてチェックイン証跡、異議申し立て審査、不正利用防止、監査対応のために利用します。</li>
+        <li>これらの情報は、本サービスの運営上必要な範囲でのみ利用します。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="article-section" id="s5">
+    <aside class="section-aside">
+      <span class="section-num">第5条</span>
+      <h2 class="section-title">保存期間</h2>
+    </aside>
+    <div class="section-body">
+      <ol>
+        <li>運営者は、取得した情報を、利用目的達成に必要な期間または法令上必要な期間保存します。</li>
+        <li>チェックイン写真は、異議申し立て対応および監査のため、原則として一定期間保存した後に削除します。現行仕様上の保存期間の目安は30日です。</li>
+        <li>購入履歴、通知記録、ログ情報その他の情報は、運営上必要な範囲で保持することがあります。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="article-section" id="s6">
+    <aside class="section-aside">
+      <span class="section-num">第6条</span>
+      <h2 class="section-title">アカウント削除後の情報の取扱い</h2>
+    </aside>
+    <div class="section-body">
+      <ol>
+        <li>ユーザーがアカウント削除を行った場合、運営者は、法令上必要な場合または正当な目的がある場合を除き、当該ユーザーを直接識別できる情報を削除または合理的期間内に削除処理します。</li>
+        <li>ただし、不正な無料トライアル再取得防止、不正利用防止、セキュリティ維持のため、アカウント削除後も、復号不可能なハッシュ化識別子等、個人を直接特定できない形式の識別情報を保持することがあります。</li>
+        <li>当該識別情報は、本人の再識別を目的とするものではなく、上記目的のために必要な範囲でのみ利用します。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="article-section" id="s7">
+    <aside class="section-aside">
+      <span class="section-num">第7条</span>
+      <h2 class="section-title">第三者提供</h2>
+    </aside>
+    <div class="section-body">
+      <p>運営者は、法令に基づく場合を除き、ユーザーの個人情報を本人の同意なく第三者に提供しません。ただし、以下の場合はこの限りではありません。</p>
+      <ol>
+        <li>本サービス提供のために必要な業務委託先または外部サービス提供事業者に提供する場合</li>
+        <li>人の生命、身体または財産の保護のために必要であり、本人同意を得ることが困難な場合</li>
+        <li>法令に基づき開示を求められた場合</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="article-section" id="s8">
+    <aside class="section-aside">
+      <span class="section-num">第8条</span>
+      <h2 class="section-title">外部サービスの利用</h2>
+    </aside>
+    <div class="section-body">
+      <p>運営者は、本サービス提供のために、以下のような外部サービスを利用することがあります。</p>
+      <ul>
+        <li>Apple（認証、アプリ内課金等）</li>
+        <li>Firebase / Google Cloud（認証、データ保存、通知、クラウド機能、分析等）</li>
+        <li>Stripe 等の決済事業者（外部決済機能を提供する場合）</li>
+        <li>その他、本サービスの提供に必要な外部委託先または技術提供事業者</li>
+      </ul>
+      <div class="info-box">これらの事業者による情報の取扱いは、各事業者の利用条件またはプライバシーポリシーに従います。</div>
+    </div>
+  </div>
+
+  <div class="article-section" id="s9">
+    <aside class="section-aside">
+      <span class="section-num">第9条</span>
+      <h2 class="section-title">安全管理措置</h2>
+    </aside>
+    <div class="section-body">
+      <p>運営者は、情報への不正アクセス、漏えい、滅失、毀損等を防止するため、合理的な安全管理措置を講じます。</p>
+      <p>ただし、インターネット通信およびクラウドサービスを利用する以上、完全な安全性を保証するものではありません。</p>
+    </div>
+  </div>
+
+  <div class="article-section" id="s10">
+    <aside class="section-aside">
+      <span class="section-num">第10条</span>
+      <h2 class="section-title">未成年者の利用</h2>
+    </aside>
+    <div class="section-body">
+      <p>本サービスは、法令上必要な場合を除き、保護者の同意なく個人情報を提供すべき年齢の方を対象としていません。必要に応じて、保護者の同意を求めることがあります。</p>
+    </div>
+  </div>
+
+  <div class="article-section" id="s11">
+    <aside class="section-aside">
+      <span class="section-num">第11条</span>
+      <h2 class="section-title">ユーザーの権利</h2>
+    </aside>
+    <div class="section-body">
+      <p>ユーザーは、法令の定めに従い、自己の個人情報について、開示、訂正、削除、利用停止等を求めることができます。</p>
+      <p>ただし、法令上またはサービス運営上、対応できない場合があります。</p>
+    </div>
+  </div>
+
+  <div class="article-section" id="s12">
+    <aside class="section-aside">
+      <span class="section-num">第12条</span>
+      <h2 class="section-title">分析・ログ等の利用</h2>
+    </aside>
+    <div class="section-body">
+      <p>本サービスでは、利便性向上、不正防止、品質改善、利用状況分析等のために、ログ、SDK、識別技術その他類似の手段を利用する場合があります。</p>
+    </div>
+  </div>
+
+  <div class="article-section" id="s13">
+    <aside class="section-aside">
+      <span class="section-num">第13条</span>
+      <h2 class="section-title">ポリシーの変更</h2>
+    </aside>
+    <div class="section-body">
+      <ol>
+        <li>運営者は、必要に応じて本ポリシーを変更することがあります。</li>
+        <li>変更後の内容は、本サービス内または運営者所定の方法で公表した時点または別途定めた効力発生日から効力を生じます。</li>
+        <li>ユーザーが変更後も本サービスを利用した場合、変更後のポリシーに同意したものとみなします。</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="article-section" id="s14">
+    <aside class="section-aside">
+      <span class="section-num">第14条</span>
+      <h2 class="section-title">お問い合わせ</h2>
+    </aside>
+    <div class="section-body">
+      <p>本ポリシーに関するお問い合わせは、以下までご連絡ください。</p>
+      <div class="contact-card">
+        <div class="contact-row">
+          <span class="contact-label">運営者</span>
+          <span class="contact-value">山本憲吾</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">メール</span>
+          <span class="contact-value"><a href="mailto:yamayamak40@gmail.com">yamayamak40@gmail.com</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">
+    <div class="footer-icon">
+      <img src="icon.png" alt="WakeUp+ icon">
+    </div>
+    <span class="footer-name">WakeUp+</span>
+  </div>
+  <span class="footer-copy">© WakeUp+ All rights reserved.</span>
+</footer>
+
+<script>
+  const bar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  });
+
+  const sections = document.querySelectorAll('.article-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
