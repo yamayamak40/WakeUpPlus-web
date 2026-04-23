@@ -1,1 +1,609 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サポート — WakeUp+</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #fafafa;
+    --gray-100: #f0f0f0;
+    --gray-300: #c8c8c8;
+    --gray-500: #888;
+    --gray-700: #444;
+    --accent: #0a0a0a;
+    --line: rgba(0,0,0,0.08);
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.8;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: 0 48px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--black);
+  }
+
+  .header-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .header-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .header-name {
+    font-family: 'DM Mono', monospace;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+  }
+
+  .header-label {
+    font-size: 12px;
+    color: var(--gray-500);
+    letter-spacing: 0.12em;
+    font-weight: 300;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 96px 48px 64px;
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--black);
+  }
+
+  .hero-title em {
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .hero-desc {
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  .hero-meta {
+    text-align: right;
+  }
+
+  .hero-meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gray-500);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .hero-meta-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gray-700);
+  }
+
+  /* ── TOC ── */
+  .toc-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 48px 0;
+  }
+
+  .toc {
+    background: var(--gray-100);
+    border-radius: 2px;
+    padding: 32px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px 32px;
+  }
+
+  .toc-header {
+    grid-column: 1 / -1;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .toc a {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--gray-700);
+    font-size: 13px;
+    font-weight: 400;
+    padding: 4px 0;
+    transition: color 0.15s;
+  }
+
+  .toc a:hover { color: var(--black); }
+
+  .toc-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-300);
+    flex-shrink: 0;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 64px 48px 120px;
+  }
+
+  /* ── ARTICLE SECTION ── */
+  .article-section {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0 64px;
+    padding: 56px 0;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .article-section.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .section-aside {
+    padding-top: 4px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-300);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    position: sticky;
+    top: 80px;
+  }
+
+  .section-body p {
+    margin-bottom: 1.4em;
+    color: var(--gray-700);
+    font-size: 14.5px;
+  }
+
+  .section-body p:last-child { margin-bottom: 0; }
+
+  .section-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .section-body ul li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 0 10px;
+    color: var(--gray-700);
+    font-size: 14.5px;
+    align-items: baseline;
+  }
+
+  .section-body ul li::before {
+    content: '—';
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-300);
+  }
+
+  /* ── CONTACT CARD ── */
+  .contact-card {
+    margin-top: 20px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--white);
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--gray-300);
+    text-transform: uppercase;
+    width: 64px;
+    flex-shrink: 0;
+  }
+
+  .contact-value {
+    font-size: 14px;
+    color: var(--gray-700);
+  }
+
+  .contact-value a {
+    color: var(--black);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    margin-top: 16px;
+    background: var(--gray-100);
+    border-radius: 2px;
+    padding: 20px 24px;
+    font-size: 13.5px;
+    color: var(--gray-500);
+    line-height: 1.7;
+  }
+
+  /* ── LINK LIST ── */
+  .link-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .link-list li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 0 10px;
+    align-items: baseline;
+  }
+
+  .link-list li::before {
+    content: '→';
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gray-300);
+  }
+
+  .link-list a {
+    font-size: 14.5px;
+    color: var(--black);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 400;
+    transition: opacity 0.15s;
+  }
+
+  .link-list a:hover { opacity: 0.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .footer-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .footer-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gray-500);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gray-300);
+  }
+
+  /* ── SCROLL PROGRESS ── */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--black);
+    z-index: 999;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    header { padding: 0 24px; }
+    .hero { padding: 64px 24px 48px; grid-template-columns: 1fr; }
+    .hero-meta { text-align: left; }
+    .toc-wrap { padding: 32px 24px 0; }
+    .toc { padding: 24px; gap: 4px 24px; }
+    main { padding: 48px 24px 80px; }
+    .article-section { grid-template-columns: 1fr; gap: 16px 0; }
+    .section-title { position: static; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 16px; align-items: flex-start; }
+    .contact-row { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+  <a class="header-brand" href="#">
+    <div class="header-icon">
+      <img src="icon.png" alt="WakeUp+ icon">
+    </div>
+    <span class="header-name">WakeUp+</span>
+  </a>
+  <span class="header-label">サポート</span>
+</header>
+
+<section class="hero">
+  <div>
+    <p class="hero-eyebrow">Support</p>
+    <h1 class="hero-title">サポート<em>ページ</em></h1>
+    <p class="hero-desc">WakeUp+ をご利用いただきありがとうございます。<br>本ページでは、アプリに関するサポート情報、お問い合わせ方法、購入に関するご案内を掲載しています。</p>
+  </div>
+  <div class="hero-meta">
+    <span class="hero-meta-label">最終更新</span>
+    <span class="hero-meta-value">2026.04.22</span>
+  </div>
+</section>
+
+<div class="toc-wrap">
+  <nav class="toc">
+    <p class="toc-header">目次 / Contents</p>
+    <a href="#s1"><span class="toc-num">01</span>アプリについて</a>
+    <a href="#s2"><span class="toc-num">02</span>サポート対象</a>
+    <a href="#s3"><span class="toc-num">03</span>お問い合わせ先</a>
+    <a href="#s4"><span class="toc-num">04</span>お問い合わせ時のお願い</a>
+    <a href="#s5"><span class="toc-num">05</span>購入・サブスクリプション</a>
+    <a href="#s6"><span class="toc-num">06</span>異議申し立て</a>
+    <a href="#s7"><span class="toc-num">07</span>関連情報</a>
+  </nav>
+</div>
+
+<main>
+
+  <div class="article-section" id="s1">
+    <aside class="section-aside">
+      <span class="section-num">01</span>
+      <h2 class="section-title">アプリについて</h2>
+    </aside>
+    <div class="section-body">
+      <p>WakeUp+ は、ユーザーが前日に朝のミッションを設定し、指定した場所・時間にチェックインすることで、朝の行動習慣づくりを支援するアプリです。</p>
+      <p>チェックイン時には、位置情報、時刻情報、写真提出情報などをもとに達成判定を行います。</p>
+    </div>
+  </div>
+
+  <div class="article-section" id="s2">
+    <aside class="section-aside">
+      <span class="section-num">02</span>
+      <h2 class="section-title">サポート対象</h2>
+    </aside>
+    <div class="section-body">
+      <p>以下のような内容についてお問い合わせいただけます。</p>
+      <ul>
+        <li>ログインやアカウントに関する問題</li>
+        <li>ミッション作成やチェックインに関する問題</li>
+        <li>判定結果や異議申し立てに関するご質問</li>
+        <li>サブスクリプションやチケット購入に関するご質問</li>
+        <li>通知や設定に関する不具合</li>
+        <li>その他アプリの動作不良やご意見</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="article-section" id="s3">
+    <aside class="section-aside">
+      <span class="section-num">03</span>
+      <h2 class="section-title">お問い合わせ先</h2>
+    </aside>
+    <div class="section-body">
+      <p>アプリに関するお問い合わせは、以下までご連絡ください。</p>
+      <div class="contact-card">
+        <div class="contact-row">
+          <span class="contact-label">運営者</span>
+          <span class="contact-value">山本憲吾</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">メール</span>
+          <span class="contact-value"><a href="mailto:yamayamak40@gmail.com">yamayamak40@gmail.com</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="article-section" id="s4">
+    <aside class="section-aside">
+      <span class="section-num">04</span>
+      <h2 class="section-title">お問い合わせ時のお願い</h2>
+    </aside>
+    <div class="section-body">
+      <p>お問い合わせの際は、確認を円滑に行うため、可能な範囲で以下の情報をご記載ください。</p>
+      <ul>
+        <li>ご利用端末名</li>
+        <li>iOS のバージョン</li>
+        <li>アプリのバージョン</li>
+        <li>発生している事象の詳細</li>
+        <li>発生日時</li>
+        <li>必要に応じてスクリーンショット</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="article-section" id="s5">
+    <aside class="section-aside">
+      <span class="section-num">05</span>
+      <h2 class="section-title">購入・サブスクリプション</h2>
+    </aside>
+    <div class="section-body">
+      <p>WakeUp+ のサブスクリプションおよびアプリ内課金は、Apple の仕組みを通じて提供されます。</p>
+      <p>請求、解約、返金等に関する詳細は、Apple の規定および Apple ID のサブスクリプション管理画面をご確認ください。</p>
+      <div class="info-box">
+        サブスクリプションの解約は、Apple の設定アプリ →「Apple ID」→「サブスクリプション」から行えます。現在の請求期間終了時に解約が有効になります。
+      </div>
+    </div>
+  </div>
+
+  <div class="article-section" id="s6">
+    <aside class="section-aside">
+      <span class="section-num">06</span>
+      <h2 class="section-title">異議申し立て</h2>
+    </aside>
+    <div class="section-body">
+      <p>未達成判定に対して、アプリ内から異議申し立てができる場合があります。</p>
+      <p>受付条件、申請期限、審査方法等は、アプリ内表示および利用規約に従います。</p>
+    </div>
+  </div>
+
+  <div class="article-section" id="s7">
+    <aside class="section-aside">
+      <span class="section-num">07</span>
+      <h2 class="section-title">関連情報</h2>
+    </aside>
+    <div class="section-body">
+      <p>本サービスのご利用にあたっては、以下もあわせてご確認ください。</p>
+      <ul class="link-list">
+        <li><a href="terms.html">利用規約</a></li>
+        <li><a href="privacy.html">プライバシーポリシー</a></li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">
+    <div class="footer-icon">
+      <img src="icon.png" alt="WakeUp+ icon">
+    </div>
+    <span class="footer-name">WakeUp+</span>
+  </div>
+  <span class="footer-copy">© WakeUp+ All rights reserved.</span>
+</footer>
+
+<script>
+  // Progress bar
+  const bar = document.getElementById('progressBar');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = (scrolled / total * 100) + '%';
+  });
+
+  // Intersection Observer for fade-in
+  const sections = document.querySelectorAll('.article-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
